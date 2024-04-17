@@ -1,4 +1,6 @@
 using L3WebApi.Common.DAO;
+using L3WebApi.Common.DTO;
+using L3WebApi.Common.Requests;
 using L3WebApi.DataAccess.Interfaces;
 
 namespace L3WebApi.DataAccess.Implementations
@@ -27,6 +29,19 @@ namespace L3WebApi.DataAccess.Implementations
         public async Task<IEnumerable<GameDao>> SearchByName(string name)
         {
             return AllGames.Where(x => x.Name.Contains(name));
+        }
+
+        public async Task<GameDao> Create(GameCreationRequest request)
+        {
+            var id = AllGames.Max(w => w.Id) + 1;
+            AllGames.Add(new GameDao
+            {
+                Id = id,
+                Name = request.Name,
+                Description = request.Description,
+                Logo = request.Logo
+            });
+            return await GetGameById(id);
         }
     }
     

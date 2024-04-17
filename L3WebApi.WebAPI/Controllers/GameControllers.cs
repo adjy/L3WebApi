@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using L3WebApi.Common.DTO;
 using L3WebApi.Business.Interfaces;
+using L3WebApi.Common.Requests;
 
 namespace L3WebApi.WebAPI.Controllers
 {
@@ -42,6 +43,23 @@ namespace L3WebApi.WebAPI.Controllers
         {
             return Ok((await _gameService.SearchByName(name)));
         }
+        
+        
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Create(GameCreationRequest gameRequest)
+        {
+            try
+            {
+                var game = await _gameService.Create(gameRequest);
+                return Created($"/api/Games/{game.Id}", game);
+            }
+            catch (InvalidDataException ex)
+            {
+                return BadRequest(ex.Message);}
+        }
+        
 
 
     }
