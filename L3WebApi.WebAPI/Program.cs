@@ -1,5 +1,11 @@
-var builder = WebApplication.CreateBuilder(args);
+using L3WebApi.Business.Implementations;
+using L3WebApi.Business.Interfaces;
+using L3WebApi.DataAccess.Implementations;
+using L3WebApi.DataAccess.Interfaces;
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddTransient<IGamesDataAccess, GamesDataAccess>();
+builder.Services.AddTransient<IGameService, GameService>();
 // Add services to the container.
 
 builder.Services.AddControllers();
