@@ -10,6 +10,8 @@ namespace L3WebApi.DataAccess.Interfaces {
         Task <IEnumerable<GameDao>> SearchByName(string name);
 
         Task<GameDao> Create(GameCreationRequest request);
+        
+        Task SaveChanges();
 
     }
 }

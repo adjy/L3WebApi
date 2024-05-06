@@ -32,32 +32,68 @@ namespace L3WebApi.Business.Implementations {
             
         }
 
+       
+
         public async Task<GameDto> Create(GameCreationRequest request) {
             if (request == null) {
                 throw new InvalidDataException("Erreur inconnue");
             }
+            
+            CheckName(request.Name);
+            CheckDescription(request.Description);
+            CheckLogo(request.Logo);
 
-            // TODO: check name duplications
+            return (await _gamesDataAccess.Create(request)).ToDto();
+        }
 
-            if (string.IsNullOrWhiteSpace(request.Name)) {
-                throw new InvalidDataException("Erreur: Nom vide");
-            }
+        public async Task Update(GameUpdateRequest request)
+        {
+            var game = await _gamesDataAccess.GetGameById(request.Id);
+            if (game is null)
+                throw new InvalidDataException("Erreur jeu introuvable");
+            
+            CheckDescription(request.Description);
+            CheckLogo(request.Logo);
 
-            if (string.IsNullOrWhiteSpace(request.Description)) {
+            game.Description = request.Description;
+            game.Logo = request.Logo;
+            await _gamesDataAccess.SaveChanges();
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        private void CheckDescription(string description)
+        {
+            if (string.IsNullOrWhiteSpace(description)) {
                 throw new InvalidDataException("Erreur: Description vide");
             }
-
-            if (request.Description.Length < 10) {
+            
+            if (description.Length < 10) {
                 throw new InvalidDataException(
                     "Erreur: Description doit être >= à 10 caracteres"
                 );
             }
-
-            if (string.IsNullOrWhiteSpace(request.Logo)) {
+        }
+        
+        private void CheckLogo(string logo)
+        {
+            if (string.IsNullOrWhiteSpace(logo)) {
                 throw new InvalidDataException("Erreur: Logo vide");
             }
+        }
 
-            return (await _gamesDataAccess.Create(request)).ToDto();
+        
+        private void CheckName(string name) {
+            // TODO: check name duplications
+
+            if (string.IsNullOrWhiteSpace(name)) {
+                throw new InvalidDataException("Erreur: Nom vide");
+            }
         }
         
     }

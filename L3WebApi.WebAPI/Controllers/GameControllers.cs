@@ -59,7 +59,22 @@ namespace L3WebApi.WebAPI.Controllers
             {
                 return BadRequest(ex.Message);}
         }
-        
+
+
+        [HttpPost("update")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Update(GameUpdateRequest gameUpdateRequest)
+        {
+            try
+            {
+                await _gameService.Update(gameUpdateRequest);
+                return Ok();
+            }
+            catch (InvalidDataException ex)
+            {
+                return BadRequest(ex.Message);}
+        }
 
 
     }
