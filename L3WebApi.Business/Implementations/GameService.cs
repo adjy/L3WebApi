@@ -61,6 +61,16 @@ namespace L3WebApi.Business.Implementations {
         }
         
         
+        public async Task Delete(int id)
+        {
+            var game = await _gamesDataAccess.GetGameById(id);
+            if (game is null)
+                throw new InvalidDataException("Erreur jeu introuvable");
+            await _gamesDataAccess.Remove(id);
+        }
+        
+        
+        
         
         
         

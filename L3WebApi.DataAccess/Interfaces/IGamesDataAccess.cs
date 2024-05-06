@@ -12,6 +12,7 @@ namespace L3WebApi.DataAccess.Interfaces {
         Task<GameDao> Create(GameCreationRequest request);
         
         Task SaveChanges();
+        Task Remove(int id);
 
     }
 }

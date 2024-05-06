@@ -75,6 +75,21 @@ namespace L3WebApi.WebAPI.Controllers
             {
                 return BadRequest(ex.Message);}
         }
+        
+        [HttpGet("delete/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                await _gameService.Delete(id);
+                return NoContent();
+            }
+            catch (InvalidDataException ex)
+            {
+                return NotFound();}
+        }
 
 
     }
