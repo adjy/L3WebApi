@@ -2,71 +2,127 @@ using L3WebApi.Business.Interfaces;
 using L3WebApi.Common.DTO;
 using L3WebApi.DataAccess.Interfaces;
 using L3WebApi.Common.Requests;
+using Microsoft.Extensions.Logging;
 
 namespace L3WebApi.Business.Implementations {
     public class GameService : IGameService
     {
 
         private readonly IGamesDataAccess _gamesDataAccess;
+        private readonly ILogger<GameService> _logger;
 
-        public GameService(IGamesDataAccess gamesDataAcces)
+        public GameService(ILogger <GameService> logger, IGamesDataAccess gamesDataAcces)
         {
             _gamesDataAccess = gamesDataAcces;
+            _logger = logger;
         }
 
-        public async Task<IEnumerable<GameDto>> GetGames() {
-            return (await _gamesDataAccess.GetGames())
-                .Select(gameDao => gameDao.ToDto());
+        public async Task<IEnumerable<GameDto>> GetGames()
+        {
+            try
+            {
+                return (await _gamesDataAccess.GetGames())
+                    .Select(gameDao => gameDao.ToDto());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                throw;
+            }
         }
-        
+
+
         public async Task<GameDto?> GetGameById(int id)
         {
-            return (await _gamesDataAccess.GetGameById(id))?.ToDto(); // Si c'est null, on va pas appele le ToDto
-            
+            try
+            {
+                return (await _gamesDataAccess.GetGameById(id))?.ToDto(); // Si c'est null, on va pas appele le ToDto
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                throw;
+            }
+              
         }
         
-        public async Task<IEnumerable<GameDto>> SearchByName(string name)
-        {
-            return (await _gamesDataAccess.SearchByName(name))
-                .Select(gameDao => gameDao.ToDto());
-            
+        public async Task<IEnumerable<GameDto>> SearchByName(string name) {
+            try {
+                return (await _gamesDataAccess.SearchByName(name))
+                    .Select(gameDao => gameDao.ToDto());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                throw;
+            }
         }
 
        
 
         public async Task<GameDto> Create(GameCreationRequest request) {
-            if (request == null) {
-                throw new InvalidDataException("Erreur inconnue");
+            try
+            {
+                if (request == null) {
+                    throw new InvalidDataException("Erreur inconnue");
+                }
+            
+                CheckName(request.Name);
+                CheckDescription(request.Description);
+                CheckLogo(request.Logo);
+
+                return (await _gamesDataAccess.Create(request)).ToDto();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                throw;
             }
             
-            CheckName(request.Name);
-            CheckDescription(request.Description);
-            CheckLogo(request.Logo);
-
-            return (await _gamesDataAccess.Create(request)).ToDto();
         }
 
         public async Task Update(GameUpdateRequest request)
         {
-            var game = await _gamesDataAccess.GetGameById(request.Id);
-            if (game is null)
-                throw new InvalidDataException("Erreur jeu introuvable");
             
-            CheckDescription(request.Description);
-            CheckLogo(request.Logo);
+            try {
+                var game = await _gamesDataAccess.GetGameById(request.Id);
+                if (game is null)
+                    throw new InvalidDataException("Erreur jeu introuvable");
+            
+                CheckDescription(request.Description);
+                CheckLogo(request.Logo);
 
-            game.Description = request.Description;
-            game.Logo = request.Logo;
-            await _gamesDataAccess.SaveChanges();
+                game.Description = request.Description;
+                game.Logo = request.Logo;
+                await _gamesDataAccess.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                throw;
+            }
+            
+           
         }
         
         
         public async Task Delete(int id)
         {
-            var game = await _gamesDataAccess.GetGameById(id);
-            if (game is null)
-                throw new InvalidDataException("Erreur jeu introuvable");
-            await _gamesDataAccess.Remove(id);
+            
+            
+            try {
+                var game = await _gamesDataAccess.GetGameById(id);
+                if (game is null)
+                    throw new InvalidDataException("Erreur jeu introuvable");
+                await _gamesDataAccess.Remove(id);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                throw;
+            }
+            
         }
         
         
