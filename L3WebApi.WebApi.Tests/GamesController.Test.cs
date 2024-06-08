@@ -23,7 +23,7 @@ namespace L3WebApi.WebApi.Tests {
 
 		[Fact]
 		public async void ShouldGet200_GET_AllGames() {
-			var response = await client.GetAsync("/api/GameControllers/");
+			var response = await client.GetAsync("/api/Games/");
 
 			response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -39,7 +39,7 @@ namespace L3WebApi.WebApi.Tests {
 		[InlineData("y", 0)]
 		[InlineData("Zelda", 1)]
 		public async Task ShouldGet200_GET_SearchByName(string name, int length) {
-			var response = await client.GetAsync($"/api/GameControllers/searchByName/{name}");
+			var response = await client.GetAsync($"/api/Games/searchByName/{name}");
 
 			response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -53,7 +53,7 @@ namespace L3WebApi.WebApi.Tests {
 
 		[Fact]
 		public async void ShouldGet400_GET_SearchByName() {
-			var response = await client.GetAsync($"/api/GameControllers/searchByName/");
+			var response = await client.GetAsync($"/api/Games/searchByName/");
 
 			response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 		}
@@ -62,7 +62,7 @@ namespace L3WebApi.WebApi.Tests {
 		[InlineData(1, HttpStatusCode.OK)]
 		[InlineData(2, HttpStatusCode.NotFound)]
 		public async void ShouldGetReleventHttpCode_GET_ById(int id, HttpStatusCode code) {
-			var response = await client.GetAsync($"/api/GameControllers/{id}");
+			var response = await client.GetAsync($"/api/Games/{id}");
 
 			response.StatusCode.Should().Be(code);
 
@@ -83,7 +83,7 @@ namespace L3WebApi.WebApi.Tests {
 				"application/json"
 			);
 
-			return await client.PostAsync("/api/GameControllers/", content);
+			return await client.PostAsync("/api/Games/", content);
 		}
 
 		[Fact]
@@ -152,7 +152,7 @@ namespace L3WebApi.WebApi.Tests {
 				"application/json"
 			);
 
-			return await client.PostAsync("/api/GameControllers/update", content);
+			return await client.PostAsync("/api/Games/update", content);
 		}
 
 		public static IEnumerable<object[]> GetUpdateSchemas() {
@@ -209,7 +209,7 @@ namespace L3WebApi.WebApi.Tests {
 			await CreateGame(game);
 
 			var id = 2;
-			var response = await client.PostAsync($"/api/GameControllers/delete/{id}", new StringContent(""));
+			var response = await client.PostAsync($"/api/Games/delete/{id}", new StringContent(""));
 			response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 		}
 	}
