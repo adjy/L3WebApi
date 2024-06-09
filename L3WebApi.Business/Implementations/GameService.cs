@@ -1,167 +1,119 @@
-using L3WebApi.Business.Interfaces;
+﻿using L3WebApi.Business.Interfaces;
 using L3WebApi.Common.DTO;
-using L3WebApi.DataAccess.Interfaces;
 using L3WebApi.Common.Requests;
+using L3WebApi.DataAccess.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace L3WebApi.Business.Implementations {
-    public class GameService : IGameService
-    {
+	public class GameService : IGameService {
+		private readonly IGamesDataAccess _gameDataAccess;
+		private readonly ILogger<GameService> _logger;
+		public GameService(ILogger<GameService> logger, IGamesDataAccess gameDataAccess) {
+			_logger = logger;
+			_gameDataAccess = gameDataAccess;
+		}
 
-        private readonly IGamesDataAccess _gamesDataAccess;
-        private readonly ILogger<GameService> _logger;
+		public async Task<IEnumerable<GameDto>> GetGames() {
+			try {
+				return (await _gameDataAccess.GetGames())
+					.Select(gameDao => gameDao.ToDto());
+			} catch (Exception e) {
+				_logger.LogError(e, e.Message);
+				throw;
+			}
+		}
 
-        public GameService(ILogger <GameService> logger, IGamesDataAccess gamesDataAcces)
-        {
-            _gamesDataAccess = gamesDataAcces;
-            _logger = logger;
-        }
+		public async Task<GameDto?> GetGameById(int id) {
+			try {
+				return (await _gameDataAccess.GetGameById(id))?.ToDto();
+			} catch (Exception e) {
+				_logger.LogError(e, e.Message);
+				throw;
+			}
+		}
 
-        public async Task<IEnumerable<GameDto>> GetGames()
-        {
-            try
-            {
-                return (await _gamesDataAccess.GetGames())
-                    .Select(gameDao => gameDao.ToDto());
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                throw;
-            }
-        }
+		public async Task<IEnumerable<GameDto>> SearchByName(string name) {
+			try {
+				return (await _gameDataAccess.SearchByName(name))
+					.Select(gameDao => gameDao.ToDto());
+			} catch (Exception e) {
+				_logger.LogError(e, e.Message);
+				throw;
+			}
+		}
 
+		private void CheckDescription(string description) {
+			if (string.IsNullOrWhiteSpace(description)) {
+				throw new InvalidDataException("Erreur: Description vide");
+			}
 
-        public async Task<GameDto?> GetGameById(int id)
-        {
-            try
-            {
-                return (await _gamesDataAccess.GetGameById(id))?.ToDto(); // Si c'est null, on va pas appele le ToDto
+			if (description.Length < 10) {
+				throw new InvalidDataException(
+					"Erreur: Description doit être >= à 10 caracteres"
+				);
+			}
+		}
 
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                throw;
-            }
-              
-        }
-        
-        public async Task<IEnumerable<GameDto>> SearchByName(string name) {
-            try {
-                return (await _gamesDataAccess.SearchByName(name))
-                    .Select(gameDao => gameDao.ToDto());
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                throw;
-            }
-        }
+		private void CheckLogo(string logo) {
+			if (string.IsNullOrWhiteSpace(logo)) {
+				throw new InvalidDataException("Erreur: Logo vide");
+			}
+		}
 
-       
+		public async Task<GameDto> Create(GameCreationRequest request) {
+			try {
+				if (request == null) {
+					throw new InvalidDataException("Erreur inconnue");
+				}
 
-        public async Task<GameDto> Create(GameCreationRequest request) {
-            try
-            {
-                if (request == null) {
-                    throw new InvalidDataException("Erreur inconnue");
-                }
-            
-                CheckName(request.Name);
-                CheckDescription(request.Description);
-                CheckLogo(request.Logo);
+				// TODO: check name duplications
 
-                return (await _gamesDataAccess.Create(request)).ToDto();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                throw;
-            }
-            
-        }
+				if (string.IsNullOrWhiteSpace(request.Name)) {
+					throw new InvalidDataException("Erreur: Nom vide");
+				}
 
-        public async Task Update(GameUpdateRequest request)
-        {
-            
-            try {
-                var game = await _gamesDataAccess.GetGameById(request.Id);
-                if (game is null)
-                    throw new InvalidDataException("Erreur jeu introuvable");
-            
-                CheckDescription(request.Description);
-                CheckLogo(request.Logo);
+				CheckDescription(request.Description);
+				CheckLogo(request.Logo);
 
-                game.Description = request.Description;
-                game.Logo = request.Logo;
-                await _gamesDataAccess.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                throw;
-            }
-            
-           
-        }
-        
-        
-        public async Task Delete(int id)
-        {
-            
-            
-            try {
-                var game = await _gamesDataAccess.GetGameById(id);
-                if (game is null)
-                    throw new InvalidDataException("Erreur jeu introuvable");
-                await _gamesDataAccess.Remove(id);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                throw;
-            }
-            
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        private void CheckDescription(string description)
-        {
-            if (string.IsNullOrWhiteSpace(description)) {
-                throw new InvalidDataException("Erreur: Description vide");
-            }
-            
-            if (description.Length < 10) {
-                throw new InvalidDataException(
-                    "Erreur: Description doit être >= à 10 caracteres"
-                );
-            }
-        }
-        
-        private void CheckLogo(string logo)
-        {
-            if (string.IsNullOrWhiteSpace(logo)) {
-                throw new InvalidDataException("Erreur: Logo vide");
-            }
-        }
+				return (await _gameDataAccess.Create(request)).ToDto();
+			} catch (Exception e) {
+				_logger.LogError(e, e.Message);
+				throw;
+			}
+		}
 
-        
-        private void CheckName(string name) {
-            // TODO: check name duplications
+		public async Task Update(GameUpdateRequest gameUpdateRequest) {
+			try {
+				var game = await _gameDataAccess.GetGameById(gameUpdateRequest.Id);
+				if (game is null) {
+					throw new InvalidDataException("Erreur: jeu inexistant!");
+				}
 
-            if (string.IsNullOrWhiteSpace(name)) {
-                throw new InvalidDataException("Erreur: Nom vide");
-            }
-        }
-        
-    }
+				CheckDescription(gameUpdateRequest.Description);
+				CheckLogo(gameUpdateRequest.Logo);
+
+				game.Description = gameUpdateRequest.Description;
+				game.Logo = gameUpdateRequest.Logo;
+
+				await _gameDataAccess.SaveChanges();
+			} catch (Exception e) {
+				_logger.LogError(e, e.Message);
+				throw;
+			}
+		}
+
+		public async Task Delete(int id) {
+			try {
+				var game = await _gameDataAccess.GetGameById(id);
+				if (game is null) {
+					throw new InvalidDataException("Erreur: jeu inexistant!");
+				}
+
+				await _gameDataAccess.Remove(id);
+			} catch (Exception e) {
+				_logger.LogError(e, e.Message);
+				throw;
+			}
+		}
+	}
 }
-

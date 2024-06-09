@@ -18,7 +18,7 @@ public class Program {
 
 		try {
 			var builder = WebApplication.CreateBuilder(args);
-
+			builder.Configuration.AddUserSecrets<Program>();
 			var rawConfig = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
 				.AddEnvironmentVariables()
@@ -28,6 +28,8 @@ public class Program {
 
 			var appSettingsSection = rawConfig.GetSection("AppSettings");
 			builder.Services.Configure<AppSettings>(appSettingsSection);
+			builder.Services.Configure<AppSettings>(builder.Configuration);
+
 
 			// Context
 			builder.Services.AddTransient<GameContext>();

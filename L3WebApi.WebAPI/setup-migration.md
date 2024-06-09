@@ -1,6 +1,7 @@
-# Installation de dotnet ef
+﻿# Installation de dotnet ef
 > dotnet tool install --global dotnet-ef
 > dotnet-ef -v
+
 # Parametrage des secrets
 Clic droit sur csproj > Manage User Secrets
 ```
