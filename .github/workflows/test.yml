@@ -41,9 +41,9 @@ jobs:
         
     - name: Create database schema
       run: |
-        psql -h 127.0.0.1 -U postgres -d postgres -f create_db.sql
+        psql -h 127.0.0.1 -U l3webapi -d l3webapi -f create_db.sql
       env:
-        PGPASSWORD: "postgres"
+        PGPASSWORD: "l3webapi"
 
     - name: Test PostgreSQL Connection
       run: |
