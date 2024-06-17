@@ -45,11 +45,11 @@ jobs:
    #   env:
    #     PGPASSWORD: "postgres"
 
-  #  - name: insert database schema
-   #   run: |
-   #     psql -h 127.0.0.1 -U l3webapi -d l3webapi -f insert_db.sql
-   #   env:
-   #     PGPASSWORD: "l3webapi"
+    - name: insert database schema
+      run: |
+        psql -h 127.0.0.1 -U l3webapi -d l3webapi -f insert_db.sql
+      env:
+        PGPASSWORD: "l3webapi"
 
   #  - name: Setup .NET
  #     uses: actions/setup-dotnet@v4
