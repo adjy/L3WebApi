@@ -43,6 +43,9 @@ jobs:
     - name: Install PostgreSQL client
       run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
-    - name: Create Database
+    - name: Run SQL script
+      env:
+        PGPASSWORD: postgres
       run: |
-        PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE l3webapiTest;"
+        psql -h localhost -U postgres -d game_database -f create_user.sql
+         psql -h localhost -U postgres -d game_database -f create_db.sql
