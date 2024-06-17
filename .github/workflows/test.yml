@@ -15,8 +15,8 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_USER: "postgres"
-          POSTGRES_PASSWORD: "postgres"
+          POSTGRES_USER: "l3webapi"
+          POSTGRES_PASSWORD: "l3webapi"
           POSTGRES_DB: l3webapi
         ports:
           - 5432:5432
@@ -29,22 +29,28 @@ jobs:
       
     - name: Test PostgreSQL Connection
       run: |
-        psql -h 127.0.0.1 -U postgres -c "\l"
+        psql -h 127.0.0.1 -U l3webapi -c "\l"
       env:
-        PGPASSWORD: "postgres"
+        PGPASSWORD: "l3webapi"
 
-    - name: Create database schema
-      run: |
-        psql -h 127.0.0.1 -U postgres -d l3webapi -f create_user.sql
-      env:
-        PGPASSWORD: "postgres"
+  #  - name: Create create_user schema
+  #    run: |
+  #      psql -h 127.0.0.1 -U postgres -d postgres -f create_user.sql
+  #    env:
+ #       PGPASSWORD: "postgres"
         
-    - name: Create database schema
-      run: |
-        psql -h 127.0.0.1 -U postgres -d l3webapi -f create_db.sql
-      env:
-        PGPASSWORD: "postgres"
+ #   - name: Create create_db schema
+ #     run: |
+ #       psql -h 127.0.0.1 -U postgres -d postgres -f create_db.sql
+ #     env:
+#        PGPASSWORD: "postgres"
 
+    - name: Test PostgreSQL Connection
+      run: |
+        psql -h 127.0.0.1 -U l3webapi -c "\l"
+      env:
+        PGPASSWORD: "l3webapi"
+        
     - name: insert database schema
       run: |
         psql -h 127.0.0.1 -U l3webapi -d l3webapi -f insert_db.sql
