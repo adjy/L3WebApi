@@ -69,7 +69,7 @@ jobs:
         
     - name: Test
       run: |
-        psql -h 127.0.0.1 -U l3webapi -P l3webapi
+        psql -h 127.0.0.1 -U l3webapi -p l3webapi -d l3webapi
         dotnet test
       env:
         SQLConnectionString: 'Host=localhost;Port=5432;Database=l3webapi;Username=l3webapi;Password=l3webapi'
