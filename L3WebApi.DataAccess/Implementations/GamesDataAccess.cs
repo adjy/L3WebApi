@@ -19,7 +19,7 @@ namespace L3WebApi.DataAccess.Implementations {
 		}
 
 		public async Task<IEnumerable<GameDao>> SearchByName(string name) {
-			return _context.Games.Where(x => x.Name.Contains(name));
+			return _context.Games.Where(x => x.Name.ToLower().Contains(name.ToLower()));
 		}
 
 		public async Task<GameDao> Create(GameCreationRequest request) {
