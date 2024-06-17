@@ -33,13 +33,13 @@ jobs:
       env:
         PGPASSWORD: "postgres"
 
-    - name: Create database schema
+    - name: Create create_user schema
       run: |
         psql -h 127.0.0.1 -U postgres -d postgres -f create_user.sql
       env:
         PGPASSWORD: "postgres"
         
-    - name: Create database schema
+    - name: Create create_db schema
       run: |
         psql -h 127.0.0.1 -U postgres -d postgres -f create_db.sql
       env:
@@ -50,6 +50,7 @@ jobs:
         psql -h 127.0.0.1 -U postgres -c "\l"
       env:
         PGPASSWORD: "postgres"
+        
     - name: insert database schema
       run: |
         psql -h 127.0.0.1 -U l3webapi -d l3webapi -f insert_db.sql
