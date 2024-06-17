@@ -13,3 +13,5 @@ CREATE TABLE games (
     logo VARCHAR(255) NOT NULL
 );
 
+INSERT INTO games (id, name, description, logo) VALUES
+(1, 'Zelda', 'Zelda le fameux jeu', 'logo Zelda');
