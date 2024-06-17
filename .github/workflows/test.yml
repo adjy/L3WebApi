@@ -17,7 +17,7 @@ jobs:
         env:
           POSTGRES_USER: "postgres"
           POSTGRES_PASSWORD: "postgres"
-          POSTGRES_DB: l3webapi
+          POSTGRES_DB: postgres
         ports:
           - 5432:5432
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -35,13 +35,13 @@ jobs:
 
     - name: Create database schema
       run: |
-        psql -h 127.0.0.1 -U postgres -d l3webapi -f create_user.sql
+        psql -h 127.0.0.1 -U postgres -d postgres -f create_user.sql
       env:
         PGPASSWORD: "postgres"
         
     - name: Create database schema
       run: |
-        psql -h 127.0.0.1 -U postgres -d l3webapi -f create_db.sql
+        psql -h 127.0.0.1 -U postgres -d postgres -f create_db.sql
       env:
         PGPASSWORD: "postgres"
 
