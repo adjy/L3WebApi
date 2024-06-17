@@ -35,9 +35,9 @@ namespace L3WebApi.WebApi.Tests {
 			data.Should().NotBeEmpty();
 		}
 
-	/*	[Theory]
+		[Theory]
 		[InlineData("y", 0)]
-		[InlineData("zelda", 1)]
+		[InlineData("Zelda", 1)]
 		public async Task ShouldGet200_GET_SearchByName(string name, int length) {
 			var response = await client.GetAsync($"/api/Games/searchByName/{name}");
 
@@ -49,7 +49,7 @@ namespace L3WebApi.WebApi.Tests {
 			);
 
 			data.Count().Should().Be(length);
-		} */
+		}
 
 		[Fact]
 		public async void ShouldGet400_GET_SearchByName() {
@@ -58,7 +58,7 @@ namespace L3WebApi.WebApi.Tests {
 			response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 		}
 
-	/*	[Theory]
+		[Theory]
 		[InlineData(1, HttpStatusCode.OK)]
 		[InlineData(2, HttpStatusCode.NotFound)]
 		public async void ShouldGetReleventHttpCode_GET_ById(int id, HttpStatusCode code) {
@@ -74,7 +74,7 @@ namespace L3WebApi.WebApi.Tests {
 
 				data.Should().NotBeNull();
 			}
-		} */
+		}
 
 		private async Task<HttpResponseMessage> CreateGame(GameCreationRequest game) {
 			var content = new StringContent(
@@ -112,7 +112,7 @@ namespace L3WebApi.WebApi.Tests {
 
 			await ShouldGet200_GET_SearchByName("test_de_creation", 1);
 			await ShouldGet200_GET_SearchByName("a", 2); // Zelda + test_de_creation
-		} 
+		} */
 
 		public static IEnumerable<object[]> GetCreateSchemas() {
 			var data = new List<object[]>();
@@ -197,7 +197,7 @@ namespace L3WebApi.WebApi.Tests {
 			var response = await UpdateGame(game);
 			response.StatusCode.Should().Be(HttpStatusCode.OK);
 		}
-*/
+
 		/*[Fact]
 		public async void ShouldGet200_POST_Delete() {
 			var game = new GameCreationRequest {
