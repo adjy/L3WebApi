@@ -35,9 +35,9 @@ namespace L3WebApi.WebApi.Tests {
 			data.Should().NotBeEmpty();
 		}
 
-		/*[Theory]
+		[Theory]
 		[InlineData("y", 0)]
-		[InlineData("Zelda", 1)]
+		[InlineData("zelda", 1)]
 		public async Task ShouldGet200_GET_SearchByName(string name, int length) {
 			var response = await client.GetAsync($"/api/Games/searchByName/{name}");
 
@@ -51,7 +51,7 @@ namespace L3WebApi.WebApi.Tests {
 			data.Count().Should().Be(length);
 		}
 
-		[Fact]
+	/*	[Fact]
 		public async void ShouldGet400_GET_SearchByName() {
 			var response = await client.GetAsync($"/api/Games/searchByName/");
 
