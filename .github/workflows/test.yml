@@ -68,8 +68,6 @@ jobs:
         psql -h localhost -U l3webapi -d l3webapi -c "SELECT * FROM games;"
         
     - name: Test
-      env:
-        PGPASSWORD: l3webapi
       run: |
         psql -h 127.0.0.1 -U l3webapi
         dotnet test
