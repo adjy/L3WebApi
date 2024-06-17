@@ -55,12 +55,7 @@ jobs:
 
     - name: Build
       run: dotnet build --no-restore
-    
-    - name: Insert test data
-      run: |
-        psql -h 127.0.0.1 -U l3webapi -d l3webapi -c "INSERT INTO Games (Id, Name, Description, Logo) VALUES (1, 'Zelda', 'A great game', 'http://domain.tld/logo.png');"
-      env:
-        PGPASSWORD: "l3webapi"
+  
     - name: Test
       run: dotnet test --no-build --verbosity normal 
       env:
