@@ -69,6 +69,10 @@ jobs:
         psql -h localhost -U l3webapi -d l3webapi -c "SELECT * FROM games;"
         
     - name: Test
-      run: dotnet test
+     env:
+        PGPASSWORD: l3webapi
+      run: |
+        psql -h 127.0.0.1 -U l3webapi
+        dotnet test
       env:
         SQLConnectionString: 'Host=localhost;Port=5432;Database=l3webapi;Username=l3webapi;Password=l3webapi'
