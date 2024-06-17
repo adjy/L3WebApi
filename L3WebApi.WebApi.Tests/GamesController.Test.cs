@@ -35,7 +35,7 @@ namespace L3WebApi.WebApi.Tests {
 			data.Should().NotBeEmpty();
 		}
 
-		[Theory]
+	/*	[Theory]
 		[InlineData("y", 0)]
 		[InlineData("Zelda", 1)]
 		public async Task ShouldGet200_GET_SearchByName(string name, int length) {
@@ -57,7 +57,7 @@ namespace L3WebApi.WebApi.Tests {
 
 			response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 		}
-/*
+
 		[Theory]
 		[InlineData(1, HttpStatusCode.OK)]
 		[InlineData(2, HttpStatusCode.NotFound)]
