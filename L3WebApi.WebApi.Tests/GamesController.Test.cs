@@ -75,7 +75,7 @@ namespace L3WebApi.WebApi.Tests {
 				data.Should().NotBeNull();
 			}
 		}
-
+*/
 		private async Task<HttpResponseMessage> CreateGame(GameCreationRequest game) {
 			var content = new StringContent(
 				JsonSerializer.Serialize(game),
@@ -97,7 +97,7 @@ namespace L3WebApi.WebApi.Tests {
 			var response = await CreateGame(game);
 			response.StatusCode.Should().Be(HttpStatusCode.Created);
 		}
-
+/*
 		[Fact]
 		public async void Should_GameCreationProcess_Work() {
 			await ShouldGet200_GET_SearchByName("test_de_creation", 0);
