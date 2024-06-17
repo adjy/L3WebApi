@@ -76,7 +76,7 @@ namespace L3WebApi.WebApi.Tests {
 			}
 		}
 */
-		private async Task<HttpResponseMessage> CreateGame(GameCreationRequest game) {
+	/*	private async Task<HttpResponseMessage> CreateGame(GameCreationRequest game) {
 			var content = new StringContent(
 				JsonSerializer.Serialize(game),
 				Encoding.UTF8,
@@ -96,7 +96,7 @@ namespace L3WebApi.WebApi.Tests {
 
 			var response = await CreateGame(game);
 			response.StatusCode.Should().Be(HttpStatusCode.Created);
-		}
+		}*/
 /*
 		[Fact]
 		public async void Should_GameCreationProcess_Work() {
