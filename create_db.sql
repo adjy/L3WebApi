@@ -7,4 +7,4 @@ CREATE DATABASE l3webapi
     IS_TEMPLATE = False;
 
 INSERT INTO games (name, description, logo) VALUES
-('Zelda', 'Description 1 vvoainvvzz zvz vz', 'Logo1.png');
+('Zelda', 'Zelda le fameux jeu', 'logo Zelda');
