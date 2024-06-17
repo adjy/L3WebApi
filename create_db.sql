@@ -6,5 +6,12 @@ CREATE DATABASE l3webapi
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
 
+CREATE TABLE games (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    logo VARCHAR(255) NOT NULL
+);
+
 INSERT INTO games (name, description, logo) VALUES
 ('Zelda', 'Zelda le fameux jeu', 'logo Zelda');
