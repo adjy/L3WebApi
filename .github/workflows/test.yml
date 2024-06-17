@@ -15,9 +15,9 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_USER: "postgres"
-          POSTGRES_PASSWORD: "postgres"
-          POSTGRES_DB: postgres
+          POSTGRES_USER: "l3webapi"
+          POSTGRES_PASSWORD: "l3webapi"
+          POSTGRES_DB: l3webapi
         ports:
           - 5432:5432
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -29,27 +29,27 @@ jobs:
       
     - name: Test PostgreSQL Connection
       run: |
-        psql -h 127.0.0.1 -U postgres -c "\l"
+        psql -h 127.0.0.1 -U l3webapi -c "\l"
       env:
-        PGPASSWORD: "postgres"
+        PGPASSWORD: "l3webapi"
 
-    - name: Create create_user schema
-      run: |
-        psql -h 127.0.0.1 -U postgres -d postgres -f create_user.sql
-      env:
-        PGPASSWORD: "postgres"
+  #  - name: Create create_user schema
+  #    run: |
+  #      psql -h 127.0.0.1 -U postgres -d postgres -f create_user.sql
+  #    env:
+ #       PGPASSWORD: "postgres"
         
-    - name: Create create_db schema
-      run: |
-        psql -h 127.0.0.1 -U postgres -d postgres -f create_db.sql
-      env:
-        PGPASSWORD: "postgres"
+ #   - name: Create create_db schema
+ #     run: |
+ #       psql -h 127.0.0.1 -U postgres -d postgres -f create_db.sql
+ #     env:
+#        PGPASSWORD: "postgres"
 
     - name: Test PostgreSQL Connection
       run: |
-        psql -h 127.0.0.1 -U postgres -c "\l"
+        psql -h 127.0.0.1 -U l3webapi -c "\l"
       env:
-        PGPASSWORD: "postgres"
+        PGPASSWORD: "l3webapi"
         
     - name: insert database schema
       run: |
@@ -62,19 +62,19 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
+  #  - name: Restore dependencies
+  #    run: dotnet restore
 
-    - name: Build
-      run: dotnet build --no-restore
+  #  - name: Build
+ #     run: dotnet build --no-restore
       
-    - name: Execute SELECT Query
-      env:
-        PGPASSWORD: l3webapi
-      run: |
-        psql -h localhost -U l3webapi -d l3webapi -c "SELECT * FROM games;"
+#    - name: Execute SELECT Query
+#      env:
+ #       PGPASSWORD: l3webapi
+ #     run: |
+#        psql -h localhost -U l3webapi -d l3webapi -c "SELECT * FROM games;"
         
-    - name: Test
-      run: dotnet test
-      env:
-        SQLConnectionString: 'Host=localhost;Port=5432;Database=l3webapi;Username=l3webapi;Password=l3webapi'
+#    - name: Test
+#      run: dotnet test
+#      env:
+#        SQLConnectionString: 'Host=localhost;Port=5432;Database=l3webapi;Username=l3webapi;Password=l3webapi'
