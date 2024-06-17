@@ -24,7 +24,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -43,9 +42,12 @@ jobs:
     - name: Install PostgreSQL client
       run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
+    - name: Create Database
+      run: |
+        PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE l3webapiTest;"
     - name: Run SQL script
       env:
         PGPASSWORD: postgres
       run: |
-        psql -h localhost -U postgres -d game_database -f create_user.sql
-         psql -h localhost -U postgres -d game_database -f create_db.sql
+        psql -h localhost -U postgres -d l3webapiTest -f create_user.sql
+        psql -h localhost -U postgres -d l3webapiTest -f create_db.sql
