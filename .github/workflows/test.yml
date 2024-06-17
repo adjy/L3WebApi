@@ -47,11 +47,11 @@ jobs:
         psql -h 127.0.0.1 -U postgres -d l3webapi -f create_user.sql
       env:
         PGPASSWORD: "postgres"
-#    - name: Create database schema
-#      run: |
-#        psql -h 127.0.0.1 -U postgres -d l3webapi -f workflow_database/controlCoil_create.sql
- #     env:
- #       PGPASSWORD: "l3webapi"
+    - name: Create database schema
+      run: |
+        psql -h 127.0.0.1 -U postgres -d l3webapi -f create_db.sql
+      env:
+        PGPASSWORD: "postgres"
         
 #    - name: Insert data into database
 #      run: |
