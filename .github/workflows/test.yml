@@ -23,16 +23,7 @@ jobs:
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-
-    - name: Configure le fuseau horaire
-      run: |
-        sudo ln -snf /usr/share/zoneinfo/Europe/Paris /etc/localtime
-        echo "Europe/Paris" | sudo tee /etc/timezone
-      shell: bash
-
-    - name: Date
-      run: date
-
+    
     - name: Checkout Repository
       uses: actions/checkout@v4
       
@@ -67,7 +58,7 @@ jobs:
     
     - name: Insert test data
       run: |
-        psql -h 127.0.0.1 -U postgres -d l3webapi -c "INSERT INTO Games (Id, Name, Description, Logo) VALUES (1, 'Zelda', 'A great game', 'http://domain.tld/logo.png');"
+        psql -h 127.0.0.1 -U l3webapi -d l3webapi -c "INSERT INTO Games (Id, Name, Description, Logo) VALUES (1, 'Zelda', 'A great game', 'http://domain.tld/logo.png');"
       env:
         PGPASSWORD: "l3webapi"
     - name: Test
