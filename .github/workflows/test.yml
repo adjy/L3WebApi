@@ -45,4 +45,4 @@ jobs:
 
     - name: Create Database
       run: |
-        PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE mydatabase;"
+        PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE l3webapiTest;"
