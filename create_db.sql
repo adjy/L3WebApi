@@ -13,5 +13,3 @@ CREATE TABLE games (
     logo VARCHAR(255) NOT NULL
 );
 
-INSERT INTO games (name, description, logo) VALUES
-('Zelda', 'Zelda le fameux jeu', 'logo Zelda');
