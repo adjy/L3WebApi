@@ -67,3 +67,5 @@ jobs:
 
     - name: Test
       run: dotnet test --no-build --verbosity normal 
+      env:
+        SQLConnectionString: 'Host=localhost;Port=5432;Database=l3webapi;Username=l3webapi;Password=l3webapi'
