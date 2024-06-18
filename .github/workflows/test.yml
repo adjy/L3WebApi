@@ -70,5 +70,4 @@ jobs:
         
     - name: Test
       run: dotnet test
-      env:
-        SQLConnectionString: 'Host=91.68.34.203;Port=5432;Database=l3webapi;Username=l3webapi;Password=l3webapi'
+      
